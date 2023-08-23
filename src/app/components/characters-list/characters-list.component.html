@@ -1,0 +1,13 @@
+
+<div class="container mx-auto flex " *ngFor="let character of charactersList">
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title>{{character.name}}</mat-card-title>
+      <mat-card-subtitle>{{character.species}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image class="w-80 h-80" [src]="character.image" alt="Photo of a Shiba Inu">
+    <mat-card-actions>
+      <button mat-button>View Details</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
