@@ -1,1 +1,14 @@
-<p>characters-details works!</p>
+<mat-card class="w-1/2 mx-auto">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Nombre: {{ (character$ | async)?.character.name }}</mat-card-title>
+    <mat-card-subtitle>Especie: {{ (character$ | async)?.character.species }}</mat-card-subtitle>
+    <mat-card-subtitle>Status: {{ (character$ | async)?.character.status }}</mat-card-subtitle>
+    <mat-card-subtitle>Genero: {{ (character$ | async)?.character.gender }}</mat-card-subtitle>
+    <mat-card-subtitle>Origen: {{ (character$ | async)?.character.origin?.name }}</mat-card-subtitle>
+    <mat-card-subtitle>Ubicacion: {{ (character$ | async)?.character.location?.name }}</mat-card-subtitle>
+    <mat-card-subtitle>Tipo: {{ (character$ | async)?.character.type }}</mat-card-subtitle>
+
+  </mat-card-header>
+  <img mat-card-image [src]="(character$ | async)?.character.image">
+</mat-card>

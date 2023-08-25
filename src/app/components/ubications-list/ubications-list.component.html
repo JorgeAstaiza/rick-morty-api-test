@@ -1,1 +1,18 @@
-<p>ubications-list works!</p>
+<div *ngIf="loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="container mx-auto flex " *ngFor="let location of locations">
+  <mat-card class="flex flex-col justify-around">
+    <mat-card-header>
+      <mat-card-title>{{location.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Dimension: {{location.dimension}}</p>
+      <p>Tipo: {{location.type}}</p>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <a class="py-2 px-4 bg-lime-500 rounded-md text-white" (click)="getLocationCaracters(location)" [routerLink]="[ '/location-characters' ]">View location characters</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

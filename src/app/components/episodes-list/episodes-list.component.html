@@ -1,0 +1,18 @@
+<div *ngIf="loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="container mx-auto flex " *ngFor="let episode of episodes">
+  <mat-card class="flex flex-col justify-around">
+    <mat-card-header>
+      <mat-card-title>{{episode.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>fecha de emision: {{episode.air_date}}</p>
+      <p>episodio: {{episode.episode}}</p>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <a class="py-2 px-4 bg-lime-500 rounded-md text-white" (click)="getEpisodeCaracters(episode)" [routerLink]="[ '/location-characters' ]">View episode characters</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

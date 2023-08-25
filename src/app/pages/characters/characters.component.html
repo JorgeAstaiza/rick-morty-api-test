@@ -1,1 +1,1 @@
-<app-characters-list class="grid grid-rows-4 grid-flow-col gap-4 px-5"></app-characters-list>
+<app-characters-list class="grid grid-rows-4 grid-flow-col gap-4 px-5" [charactersList]="charactersList" [loading$]="loading$" [showDetailButton]="true" (characterDetails)="getSingleCharacter($event)"></app-characters-list>

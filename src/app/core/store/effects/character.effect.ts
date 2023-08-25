@@ -1,29 +1,85 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { loadAllCharacters, loadedAllCharacters } from '../actions/character.actions'
-import { CharactersListService } from 'src/app/components/characters-list/services/characters-list.service';
+import {
+  faildLoadAllCharacters,
+  successLoadAllCharacters,
+  loadAllCharacters,
+  loadSingleCharacter,
+  successLoadSingleCharacter,
+  loadMultipleCharacter,
+  successLoadMultipleCharacter,
+} from '../actions/character.actions';
+import { catchError, map, switchMap, of, debounceTime, mergeMap } from 'rxjs';
+import { ApiGeneralResponseCharacter } from '../../interfaces/all-characters-response.interface';
+import { Character } from '../../interfaces/character.interface';
+import { CharacterService } from '../../services/character.service';
+import { searchCharacter } from '../actions/search.action';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class NameEffects {
+export class CharacterEffects {
+  constructor(
+    private actions$: Actions,
+    private characterServices: CharacterService
+  ) {}
 
   loadCharacters$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadAllCharacters),
       map((action) => action.page),
-      mergeMap((page) =>
-        this.characterServices.getAllCharacters().pipe(
-          map((response) => loadedAllCharacters({ response })),
-          catchError(() => EMPTY)
+      switchMap((page) =>
+        this.characterServices.getAllCharacters(page).pipe(
+          map((response: ApiGeneralResponseCharacter) =>
+            successLoadAllCharacters({ response })
+          ),
+          catchError(() => of(faildLoadAllCharacters()))
         )
       )
     )
   );
 
+  loadSingleCharacter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadSingleCharacter),
+      map((action) => action.id),
+      switchMap((id) =>
+        this.characterServices.getSingleCharacter(id).pipe(
+          map((response: Character) =>
+            successLoadSingleCharacter({ response })
+          ),
+          catchError(() => of(faildLoadAllCharacters()))
+        )
+      )
+    )
+  );
 
-  constructor(private actions$: Actions, characterServices: CharactersListService) {}
+  loadMultipleCharacter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadMultipleCharacter),
+      map((action) => action.ids),
+      mergeMap((ids) =>
+        this.characterServices.getMultipleCharacter(ids).pipe(
+          map((response) => successLoadMultipleCharacter({ response })),
+          catchError(() => of(faildLoadAllCharacters()))
+        )
+      )
+    )
+  );
 
-  actionName$ = this.actions$.pipe(ofType(class.actionName));
-
+  searchCharacter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(searchCharacter),
+      debounceTime(500),
+      map((action) => action.value),
+      switchMap((value) =>
+        this.characterServices.searchCharacter(value).pipe(
+          map((response: ApiGeneralResponseCharacter) =>
+            successLoadAllCharacters({ response })
+          ),
+          catchError(() => of(faildLoadAllCharacters()))
+        )
+      )
+    )
+  );
 }

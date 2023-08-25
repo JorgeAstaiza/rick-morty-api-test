@@ -1,26 +1,39 @@
-export interface Character {
-  id: number,
-  name: string,
-  status: string,
-  species: string,
-  type: string,
-  gender: string,
-  origin: Location,
-  location: Location,
-  image: string,
-  episode: any[],
-  url: string,
-  created: Date
-}
+import { Episode } from './episode.interface';
 
+export interface Character {
+  id?: number;
+  name?: string;
+  status?: string;
+  species?: string;
+  type?: string;
+  gender?: string;
+  origin?: Location;
+  location?: Location;
+  image?: string;
+  episode?: Episode[];
+  url?: string;
+  created?: Date;
+}
 
 export interface Location {
-  name: string,
-  url: string
+  name: string;
+  url: string;
 }
 
-export interface Info { 
-  count: number
-  next: string
-  pages: number
+export interface Info {
+  count?: number;
+  next?: string;
+  pages?: number;
+  prev?: string;
+}
+
+export interface CharacterState {
+  loading?: boolean;
+  info?: Info;
+  characters?: Character[];
+  character?: Character;
+}
+
+export interface Search {
+  value?: string;
 }

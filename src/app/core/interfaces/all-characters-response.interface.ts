@@ -1,6 +1,8 @@
-import { Character, Info } from "./character.interface";
+import { Character, Info } from './character.interface';
+import { Episode } from './episode.interface';
+import { LocationInterface } from './location.interface';
 
-export interface AllCharactersResponse {
+export interface ApiGeneralResponseCharacter {
   info?: Info;
-  results?: Array<Character>
+  results?: Array<Character>;
 }
